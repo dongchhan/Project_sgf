@@ -114,4 +114,43 @@ def socket_conn(auth):
       except Exception as e:
         res = {}
         res["status"] = 800  # WEB ERROR
-        
+        res["error_msg"] = f"WEB ERROR {e}"
+        res["index"] = file["index"]
+        res["sid"] = session["sid"]
+        res["filename"] = file["filename"]
+      end_time = time.perf_counter()
+      res["exec_time"] = round(end_time - start_time, 2)
+      socketio.emit('send image file', res)
+    socketio.emit('state', {"state": "done", "sid": session["sid"]})
+    wLog.info(f"{session['sid']} end ========================================")
+      
+  
+  @blueprint.route('/index', methods=['GET'])
+  @login_required
+  def index():
+    ui_mode = request.args.get('mode', default='user', type=str)
+    
+    # if ui_mode != "dev":
+    #   ui_mode = "user"
+    ui_mode = "user"
+    
+    
+    # wLog.info(f"mode: {ui_mode}")
+    
+    return render_template('home/index.html', mode=ui_mode, time=time.time())
+    
+  
+  @blueprint.route('/<template>')
+  @login_required
+  def route_template(template):
+    wLog.info("")
+    try:
+      if not template.endswith('.html'):
+        template += '.html'
+      return render_template("home/" + template)
+    
+    except TemplateNotFound:
+      return render_template('home/page-404.html'), 404 
+    
+    except:
+      return render_template('home/page-500.html'), 500
