@@ -17,7 +17,7 @@ except KeyError:
     exit('Error: Invalid <config_mode>. Expected values [Debug, Production]')
 
 app = create_app(app_config)
-app.secret_key = "REMOVED_SECRET_KEY"
+app.secret_key = config('SECRET_KEY')
 Migrate(app, db)
 
 if DEBUG:
