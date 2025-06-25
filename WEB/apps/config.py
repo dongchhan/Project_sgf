@@ -8,7 +8,7 @@ class Config(object):
   basedir = os.path.abspath(os.path.dirname(__file__))
   
   # Set up the App SECRET_KEY
-  SECRET_KEY = config('SECRET_KEY', default='REMOVED_SECRET_KEY')
+  SECRET_KEY = config('SECRET_KEY')  # 시크릿 키 디폴트 설정 있었음. 
   
   # This will create a file in <app> FOLDER
   SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'user.sqlite')
