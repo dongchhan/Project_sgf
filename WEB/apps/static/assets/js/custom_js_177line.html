@@ -1,0 +1,60 @@
+<div class="row mb-1">
+  <div class="col-8">
+    <div class="row" style="height: 250px;">
+      <div id="dRow${k}_1" class="col-4 d-flex justify-content-center align-items-center p-0 border-end" style="position: relative;">
+        <a id="a${k}_1" class="custom_image" data-pswp-width="600" data-pswp-height="300" targe="_blank">
+          <img id="image${k}_1" class="custom_image fade-in-image" onload="document.getElementById('a${k}_1').setAttribute('data-pswp-width', this.naturalWidth); document,getElementById('a${k}_1').setAttribute('data-pswp-height, this.naturalHeight);">
+        </a>
+      </div>
+      <div id="dRow${k}_2" class="col-4 d-flex justify-content-center align-items-center p-0 border-end" style="position: relative;">
+      </div>
+      <div id="dRow${k}_3" class="col-4 d-flex justify-content-center align-items-center p-0" style="position: relative;">
+      </div>
+    </div>
+    <div class="row" style="height: 200px">
+      <div id="dPlot${k}_1" class="col-4 p-0 border-end">
+      </div>
+      <div id="dPlot${k}_2" class="col-4 p-0 border-end">
+      </div>
+      <div id="dPlot${k}_3" class="col-4 p-0">
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="row">
+      <div id="dRow${k}_4" class="col-12 p-0">
+        <p id="p${k}_1" class="custom_p" style="margin-left: 20px;">
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-6 d-flex justify-content-center align-items-center p-0 border-end">
+    <div id="cc${k}_1" class="custom_display">
+      <img id="image${k}_scalebar">
+    </div>
+  </div>
+  <div class="col-6 d-flex justify-content-center align-items-center p-0">
+    <div id="cc${k}_2" class="custom_display" style="width:100%">
+      <div class="row mb-1">
+        <div class="col-4 d-flex align-items-center justify-content-end"><label class="mb-0">Scale</label></div>
+        <div class="col-8 d-flex"><div class="input-group"><input type="number" class="form-control" id="manual_scale_${k}" min="0" /><span class="input-group-text">&#181;m</span></div></div>
+      </div>
+      <div class="row mb-1">
+        <div class="col-4 d-flex align-items-center justify-content-end"><label class="mb-0">Scale Bar</label></div>
+        <div class="col-8 d-flex">
+          <div class="input-group">
+            <input type="text" class="form-control" id="manual_scalebar_${k}" onclick="setScaleBar(${k})"/>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-1">
+        <div class="col-4 d-flex"></div>
+        <div class="col-8 d-flex">
+          <button class="btn btn-outline-success btn-sm" type="button" onclick="manualRun(${k})"><i class="fas fa-running"></i> Run</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
