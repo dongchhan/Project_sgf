@@ -1,0 +1,1 @@
+uv run gunicorn -c gunicorn-cfg.py

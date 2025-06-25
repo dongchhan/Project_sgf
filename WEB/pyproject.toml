@@ -1,0 +1,26 @@
+[project]
+name = 'e1-p8000-web-sam-for-droplet-2024"
+version = "0.1.0"
+description = "Add your description here"
+readme = 'README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "email-validator==1.1.3",
+  "eventlet==0.30.2",
+  "flask==1.1.2",
+  "flask-compress==1.13",
+  "flask-cors==3.0.10",
+  "flask-login=0.5.0",
+  "flask-migrate==3.1.0",
+  "flask-socketio==5.1.1",
+  "flask-sqlalchemy==2.5.1",
+  "flask-wtf==1.0.0",
+  "gevent-websocket==0.10.1",
+  "gunicorn==20.1.0",
+  "itsdangerous==1.1.0",
+  "jinja2==3.0.3",
+  "python-decouple==3.8",
+  "requests==2.31.0",
+  "sqlalchemy==1.4.49",
+  "werkzeug==2.0.2",
+]

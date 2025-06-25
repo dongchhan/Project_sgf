@@ -90,7 +90,7 @@ def socket_conn(auth):
         res = requests.post(
           "http://localhost:8005/sam_for_droplet", 
           headers={"content-Type": "application/json"},
-          data=json.dumps{[
+          data=json.dumps({
             "uid": data["uid"],
             "reqid": req_number,
             "timestamp": data["timestamp"],
@@ -103,7 +103,7 @@ def socket_conn(auth):
             "option_y1": data["opition_y1"],
             "option_scale": data["option_scale"],
             "option_min_diameter_threshold": data["option_min_diameter_threshold"],
-          ]})
+          }))
           
         res = json.loads(res.text)
         # res["status"] = 400  # API ERROR

@@ -2,7 +2,7 @@
 from flask import Blueprint 
 
 Blueprint = Blueprint(
-  'home_blueprint',
+  'authentication_blueprint',
   __name__,
   url_prefix=''
 )
