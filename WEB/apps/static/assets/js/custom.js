@@ -163,7 +163,7 @@ document.getElementById("files").onchange = function () {
     
     document.getElementById("image_div").innerHTML = "";
     
-    for (leg k = 0; k < customFiles.length; k++) {
+    for (let k = 0; k < customFiles.length; k++) {
       total_images = total_images + 1;
       
       let dc = document.createElement("div");
