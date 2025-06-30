@@ -24,6 +24,7 @@ cur = con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS RequestHistory (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, user TEXT, file TEXT, desc TEXT);")
 con.commit()
 
+
 def ping_in_intervals():
   while True:
     socketio.sleep(60)
