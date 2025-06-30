@@ -106,12 +106,12 @@ socket.on("ping", function (msg) {
     sid: socket.id,
     timestamp: getTimeStamp(),
     user: document.getElementById("username").innerText, 
-    availWidth: screen.availWidth
-    availHeight: screen.availHeight
-    outerWidth: window.outerWidth
-    outerHeight: window.outerHeight
-    innerWidth: window.innerWidth
-    innerHeight: window.innerHeight
+    availWidth: screen.availWidth,
+    availHeight: screen.availHeight,
+    outerWidth: window.outerWidth,
+    outerHeight: window.outerHeight,
+    innerWidth: window.innerWidth,
+    innerHeight: window.innerHeight,
   });
 });
 
@@ -132,7 +132,7 @@ socket.on('disconnect', function () {
   s1.classList.add("server_off");
 });
 
-document.getElementById("files").onchange function () {
+document.getElementById("files").onchange = function () {
   
   // total_images = 0 
   
@@ -457,7 +457,7 @@ function second_run() {
   // const imageInput = document.getElementById("files");
   
   if (customFiles.length === 0) {
-    notyf.error(선택된 파일이 없습니다. 파일을 선택해주세요.);
+    notyf.error('선택된 파일이 없습니다. 파일을 선택해주세요.');
     return;
   }
 
@@ -534,7 +534,7 @@ function manualRun(k, remove1Buff = [], remove2Buff = [], remove3Buff = []) {
   
   // const optionColorMap = document.getElementById("opt_colormap");
   
-  let optScale = document.getElementById(manual_scale_${k}).value;
+  let optScale = document.getElementById(`manual_scale_${k}`).value;
   
   if (isNaN(parseInt(optScale))) {
     optScale = null;
@@ -543,8 +543,8 @@ function manualRun(k, remove1Buff = [], remove2Buff = [], remove3Buff = []) {
   }
   
   let manualScaleBar = [0, 0, 0, 0];
-  if (document.getElementById(manual_scalebar_${k}).value != "") {
-    manualScaleBar = document.getElementById(manual_scalebar_${k}).value.split(',')
+  if (document.getElementById(`manual_scalebar_${k}`).value != "") {
+    manualScaleBar = document.getElementById(`manual_scalebar_${k}`).value.split(',')
   }
   
   for (let t1 = 0 ; t1 < remove1Buff.length; t1++) {
@@ -571,7 +571,7 @@ function manualRun(k, remove1Buff = [], remove2Buff = [], remove3Buff = []) {
     option_y0: manualScaleBar[1],
     option_x1: manualScaleBar[2],
     option_y1: manualScaleBar[3],
-    option_min_diameter_threshold: parseFloat(document.getElementById(opt_min_diameter_threshold).value)
+    option_min_diameter_threshold: parseFloat(document.getElementById(`opt_min_diameter_threshold`).value)
   });
 };
 
@@ -580,7 +580,7 @@ function updateProgress() {
   
   const processedImage = Object.keys(globalRecvData).length;
   
-  element.innerHTML = ${processedImage} / ${total_images};
+  element.innerHTML = `${processedImage} / ${total_images}`;
 }
 
 function uiButtonOn() {
@@ -658,28 +658,28 @@ function uiButtonOff() {
 }
 
 function display_spinner(k, name) {
-  document.getElementById(p${k}_1).innerHTML = <div class="" style="color: #a50034;">
+  document.getElementById(`p${k}_1`).innerHTML = `<div class="" style="color: #a50034;">
               <span style="font-size: 16px">${name}</span><br/>
               <span class="loader"></span><br/>
               <span style="font-size: 16px">분석 대기중입니다.</span>
-              </div>;
-  document.getElementById(dRow${k}_2).innerHTML = "";
-  document.getElementById(dRow${k}_3).innerHTML = "";
+              </div>`;
+  document.getElementById(`dRow${k}_2`).innerHTML = "";
+  document.getElementById(`dRow${k}_3`).innerHTML = "";
   
-  document.getElementById(dPlot${k}_1).innerHTML = "";
-  document.getElementById(dPlot${k}_2).innerHTML = "";
-  document.getElementById(dPlot${k}_3).innerHTML = "";
+  document.getElementById(`dPlot${k}_1`).innerHTML = "";
+  document.getElementById(`dPlot${k}_2`).innerHTML = "";
+  document.getElementById(`dPlot${k}_3`).innerHTML = "";
 }
 
 function display_progress_info(k, name, reqid) {
-  document.getElementById(p${k}_1).innerHTML = <div class="" style="color: #a50034;">
+  document.getElementById(`p${k}_1`).innerHTML = <div class="" style="color: #a50034;">
               <span style="font-size: 16px">${reqid}</span><br/>
               <span style="font-size: 16px">${name}</span><br/>
               <span class="loader"></span><br/>
               <span id="typed_element" style="font-size: 16px"></span>
               </div>;
-  document.getElementById(dRow${k}_2).innerHTML = "";
-  document.getElementById(dRow${k}_3).innerHTML = "";
+  document.getElementById(`dRow${k}_2`).innerHTML = "";
+  document.getElementById(`dRow${k}_3`).innerHTML = "";
   
   setTimeout(function () {
     let typed = new Typed('#typed_element', {
@@ -700,7 +700,7 @@ function display_progress_info(k, name, reqid) {
                 "분석이 거의 마무리되고 있습니다. <br/>최상의 결과를 드리기 위해 노력 중입니다.",
                 "분석가님의 데이터를 특별한 과정으로 변환 중이에요. <br/>곧 멋진 결과를 보실 수 있을 거예요.",
                 "재미있는 사실: <br/>나비는 발로 맛을 봅니다. <br/>신기하죠?",
-                "분석가님이 이 메시지를 읽는 동안에도, <br/>우리는 분석가님의 결과를 위해 열심히 작업 중입니다."
+                "분석가님이 이 메시지를 읽는 동안에도, <br/>우리는 분석가님의 결과를 위해 열심히 작업 중입니다.",
                 "분석을 기다리는 동안, 잠시 밖을 바라보세요. <br/>자연은 항상 놀라움을 준비하고 있어요.",
                 // "사람은 하루에 평균 15번 웃는다고 합니다. <br/>오늘 분석가님은 몇 번이나 웃으셨나요?",
                 "분석에 조금 시간이 필요해요. 조금만 기다려주실래요? <br/>어서 좋은 결과로 돌아올게요.",
@@ -895,21 +895,21 @@ function display_progress_info(k, name, reqid) {
 }
 
 function remove_spinner(msg) {
-  document.getElementById(dRow${k}_2).innerHTML = "";
-  document.getElementById(dRow${k}_3).innerHTML = "";
-  document.getElementById(p${k}_1).innerHTML = "";
+  document.getElementById(`dRow${k}_2`).innerHTML = "";
+  document.getElementById(`dRow${k}_3`).innerHTML = "";
+  document.getElementById(`p${k}_1`).innerHTML = "";
 }
 
 function update_image(k) {
   let img2 = document.createElement("img");
-  img2.setAttribute("id", image${k}_2);
+  img2.setAttribute("id", `image${k}_2`);
   img2.setAttribute("class", "custom_image fade-in-image");
   img2.onload = function () {
-    document.getElementById(a${k}_2).setAttribute("data-pswp-width", img3.naturalWidth);
-    document.getElementById(a${k}_2).setAttribute("data-pswp-height", img3.naturalHeight);
+    document.getElementById(`a${k}_2`).setAttribute("data-pswp-width", img3.naturalWidth);
+    document.getElementById(`a${k}_2`).setAttribute("data-pswp-height", img3.naturalHeight);
   };
   let a2 = document.createElement("a");
-  a2.setAttribute("id", a${k}_2);
+  a2.setAttribute("id", `a${k}_2`);
   a2.setAttribute("class", "custom_image");
   a2.setAttribute("data-pswp-width", "600");
   a2.setAttribute("data-pswp-height", "300");
@@ -917,42 +917,42 @@ function update_image(k) {
   a2.appendChild(img2);
   
   let img3 = document.createElement("img");
-  img3.setAttribute("id", image${k}_3);
+  img3.setAttribute("id", `image${k}_3`);
   img3.setAttribute("class", "custom_image fade-in-image");
   img3.onload = function () {
-    document.getElementById(a${k}_3).setAttribute("data-pswp-width", img3.naturalWidth2);
-    document.getElementById(a${k}_3).setAttribute("data-pswp-height", img3.naturalHeight2);
+    document.getElementById(`a${k}_3`).setAttribute("data-pswp-width", img3.naturalWidth2);
+    document.getElementById(`a${k}_3`).setAttribute("data-pswp-height", img3.naturalHeight2);
   };
   let a3 = document.createElement("a");
-  a3.setAttribute("id", a${k}_3);
+  a3.setAttribute("id", `a${k}_3`);
   a3.setAttribute("class", "custom_image");
   a3.setAttribute("data-pswp-width", "600");
   a3.setAttribute("data-pswp-height", "300");
   a3.setAttribute("target", "_blank");
   a3.appendChild(img3);
   
-  document.getElementById(dRow${k}_2).innerHTML = "";
-  document.getElementById(dRow${k}_3).innerHTML = "";
+  document.getElementById(`dRow${k}_2`).innerHTML = "";
+  document.getElementById(`dRow${k}_3`).innerHTML = "";
   
-  document.getElementById(dRow${k}_2).appendChild(a2);
-  document.getElementById(dRow${k}_3).appendChild(a3);
+  document.getElementById(`dRow${k}_2`).appendChild(a2);
+  document.getElementById(`dRow${k}_3`).appendChild(a3);
   
-  document.getElementById(image${k}_2).src = "data:image/png;base64," + globalRecvData[k].image_bi_scale;
-  document.getElementById(a${k}_2).href = "data:image/png;base64," + globalRecvData[k].image_bi_scale;
-  document.getElementById(image${k}_3).src = "data:image/png;base64," + globalRecvData[k].image_out;
-  document.getElementById(a${k}_3).href = "data:image/png;base64," + globalRecvData[k].image_out;
+  document.getElementById(`image${k}_2`).src = "data:image/png;base64," + globalRecvData[k].image_bi_scale;
+  document.getElementById(`a${k}_2`).href = "data:image/png;base64," + globalRecvData[k].image_bi_scale;
+  document.getElementById(`image${k}_3`).src = "data:image/png;base64," + globalRecvData[k].image_out;
+  document.getElementById(`a${k}_3`).href = "data:image/png;base64," + globalRecvData[k].image_out;
   
-  document.getElementById(image${k}_scalebar).src = "data:image/png;base64," + globalRecvData[k].image_scalebar;
+  document.getElementById(`image${k}_scalebar`).src = "data:image/png;base64," + globalRecvData[k].image_scalebar;
 
   let label_1 = document.createElement("span")
   label_1.setAttribute("style", "position: absolute; top: 0; left: 50%; transform: translateX(-50%); color: white; background-color: rgba(0, 0, 0, 0.5); padding: 5px; border-radius: 5px;")
   label_1.innerHTML = "Section"
-  document.getElementById(a${k}_2).append(label_1)
+  document.getElementById(`a${k}_2`).append(label_1)
   
   let label_2 = document.createElement("span")
   label_2.setAttribute("style", "position: absolute; top: 0; left: 50%; transform: translateX(-50%); color: white; background-color: rgba(0, 0, 0, 0.5); padding: 5px; border-radius: 5px;")
   label_2.innerHTML = "Segmentation"
-  document.getElementById(a${k}_3).append(label_2)
+  document.getElementById(`a${k}_3`).append(label_2)
   
   const temp = globalRecvData[k].data;
   
@@ -964,14 +964,14 @@ function update_image(k) {
       ocrString = "MANUAL";
     }
   } else {
-    if (isNaN(parseInt(document.getElementById(manual_scale_${k}).value))) {
+    if (isNaN(parseInt(document.getElementById(`manual_scale_${k}`).value))) {
       ocrString = "OCR";
     } else {
       ocrString = "MANUAL";
     }
   }
   
-  document.getElementById(p${k}_1).innerHTML = `
+  document.getElementById(`p${k}_1`).innerHTML = `
   <b style="font-size:27px">${k + 1}</b>&nbsp;&nbsp;${globalRecvData[k].reqid} > <b>${globalRecvData[k].filename}</b><br>
       Scale (${ocrString}) : ${globalRecvData[k].option_scale} &#181;m&nbsp;&nbsp;&nbsp;<img src="${"data:image/png;base64," + globalRecvData[k].image_scalebar}" style="height:10px"/>
       <br>
@@ -1186,7 +1186,7 @@ function update_image(k) {
     
   // add mag
   setTimeout(function () {
-    magnify(image${k}_2, 5);
+    magnify(`image${k}_2`, 5);
   }, 1000);
   
 }
@@ -1253,9 +1253,9 @@ function drawPlot() {
   let yy3 = [];
   let fname = [];
   for (k in globalRecvData) {
-    if (document.getElementById(resSwitch${k}).checked == true) {
+    if (document.getElementById(`resSwitch${k}`).checked == true) {
       xx.push(globalRecvData[k].filename_category);
-      fname.push(${parseInt(k) + 1}. ${globalRecvData[k].filename});
+      fname.push(`${parseInt(k) + 1}. ${globalRecvData[k].filename}`);
       const temp = globalRecvData[k].data;
       yy1.push(temp[boxPlotList[mainPlot1TypeIndex][0]]);
       yy2.push(temp[boxPlotList[mainPlot2TypeIndex][0]]);
@@ -1337,7 +1337,7 @@ function drawPlot() {
   
   Plotly.newPlot("plotBox_1", [trace1], customLayout1, customConfig);
   let plotPromise1 = Plotly.toImage(document.getElementById("plotBox_1"), { format: 'png', height: 400, width: 600 });
-  plotPromise1.then(value => { plot1base64 = value
+  plotPromise1.then(value => { plot1base64 = value });
   
   Plotly.newPlot("plotBox_2", [trace2], customLayout2, customConfig);
   let plotPromise2 = Plotly.toImage(document.getElementById("plotBox_2"), { format: 'png', height: 400, width: 600 });
@@ -1379,7 +1379,7 @@ document.addEventListener("keydown", function (e) {
           document.getElementById("files").click();
         };
         break;
-      case 82: / key r /
+      case 82: /* key r */
         if (e.ctrlKey) {
           // window.location.reload(); // chrome default function
         } else {
@@ -1420,16 +1420,16 @@ document.getElementById("buttonCsv").onclick = function () {
   csvData = getCsvHeader();
   
   for (k in globalRecvData) {
-    if (document.getElementById(resSwitch${k}).checked == true) {
+    if (document.getElementById(`resSwitch${k}`).checked == true) {
       csvData = csvData + getCsvLine(k);
     }
   }
   
   let link = document.createElement("a");
-  link.setAttribute("target", "blank");
+  link.setAttribute("target", "_blank");
   link.setAttribute("href", "data:text/plain,\ufeff" + csvData);
-  const subName = _min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".","")};
-  link.setAttribute("download", "sam_for_droplet" + subName + "" + getTimeStamp() + ".csv");
+  const subName = `_min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".","")}`;
+  link.setAttribute("download", "sam_for_droplet" + subName + "_" + getTimeStamp() + ".csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1443,7 +1443,7 @@ function downloadCsvWithIndex(k) {
   let link = document.createElement("a");
   link.setAttribute("target", "_blank");
   link.setAttribute("href", "data:text/plain,\ufeff" + csvData);
-  const subName = _min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".","")};
+  const subName =` _min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".","")}`;
   filenameWithoutExtention = globalRecvData[k].filename.split('.').slice(0, -1).join('.')
   link.setAttribute("download", filenameWithoutExtention + subName + ".csv");
   document.body.appendChild(link);
@@ -1470,7 +1470,7 @@ function getCsvHeader() {
     header_0.push(value[0]);
     header_1.push(value[1]);
   });
-  return ${header_0.join()}\n${header_1.join()}\n;
+  return `${header_0.join()}\n${header_1.join()}\n`;
 }
 
 function getCsvLine(k) {
@@ -1537,7 +1537,7 @@ document.getElementById("buttonCsvDetail").onclick = function () {
   let tString;
   
   for (let kk = 0; kk < Object.keys(globalRecvData).length; kk++) {
-    if (document.getElementById(resSwitch${kk}).checked == true) {
+    if (document.getElementById(`resSwitch${kk}`).checked == true) {
       try {
         mDict = globalRecvData[kk].detail;
         subDataKey = Object.keys(mDict["Segment"])
@@ -1558,10 +1558,10 @@ document.getElementById("buttonCsvDetail").onclick = function () {
   };
   
   let link = document.createElement("a");
-  link.setAttribute("target", "blank");
+  link.setAttribute("target", "_blank");
   link.setAttribute("href", "data:text/plain,\ufeff" + csvData);
-  const subName = _min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".", "")};
-  link.setAttribute("download", "sam_for_droplet_detail" + subName + "" + getTimeStamp() + ".csv");
+  const subName = `_min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".", "")}`;
+  link.setAttribute("download", "sam_for_droplet_detail" + subName + "_" + getTimeStamp() + ".csv");
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1631,7 +1631,7 @@ document.getElementById("buttonPdf").onclick = function () {
   }
   
   for (k in globalRecvData) {
-    if (document.getElementById(resSwitch${k}).checked == true) {
+    if (document.getElementById(`resSwitch${k}`).checked == true) {
       const temp = globalRecvData[k].data;
       
       const ddLogo = { image: lgchem_logo_base64, width: 150, pageBreak: 'before', };
@@ -1665,7 +1665,7 @@ document.getElementById("buttonPdf").onclick = function () {
                         { image: document.getElementById(`a${k}_3`).href, width: 250, alignment: 'center' },
                       ],
                       // [
-                      // { image: document.getElementById(`a${k}_4`).href, width: 196, alignment: 'center' },
+                      //   { image: document.getElementById(`a${k}_4`).href, width: 196, alignment: 'center' },
                       // ]
                     ]
                   },
@@ -1707,7 +1707,7 @@ document.getElementById("buttonPdf").onclick = function () {
                 //   },
                 //   layout: 'defaultBorder', alignment: 'center'
                 // },
-                // { text: " \n Total Porosity (%) : " + temp['Total porosity (%)']},
+                // { text: " \n Total Porosity (%) : " +  temp['Total porosity (%)']},
                 { text: " \n \n- Option" },
                 {
                   columns: [
@@ -1751,7 +1751,7 @@ document.getElementById("buttonPdf").onclick = function () {
     } 
   }
       
-  const subName = _min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".", "")};
+  const subName = `_min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".", "")}`;
   
   pdfMake.createPdf(dd).download("PDLC_Droplet_Image_Analysis_for_SGF" + subName + "_" + timeStamp + ".pdf");
   uiButtonOn();
@@ -1759,7 +1759,7 @@ document.getElementById("buttonPdf").onclick = function () {
 
 function downloadPdfWithIndex(k) {
   const timeStamp = getTimeStamp();
-  const userName = document.getElementById("username").innerText
+  const userName = document.getElementById("username").innerText;
   
   let dd = {
     pageSize: 'A4',
@@ -1798,7 +1798,7 @@ function downloadPdfWithIndex(k) {
   const temp = globalRecvData[k].data;
   
   const ddLogo = { image: lgchem_logo_base64, width: 150 };
-  const ddtitle = { text: \n${globalRecvData[k].index + 1}. ${globalRecvData[k].filename}\n, fontSize: 20, alignment: 'left', };
+  const ddtitle = { text: ` \n${globalRecvData[k].index + 1}. ${globalRecvData[k].filename}\n `, fontSize: 20, alignment: 'left', };
   const ddSubImage = {
     table: {
       body: [
@@ -1809,7 +1809,7 @@ function downloadPdfWithIndex(k) {
           //       widths: ['*'],
           //       body: [
           //         [
-          //           { image: document.getElementById(a${k}_1).href, width: 196, alignment: 'right' },
+          //           { image: document.getElementById(`a${k}_1`).href, width: 196, alignment: 'right' },
           //         ]
           //       ]
           //     },
@@ -1822,13 +1822,13 @@ function downloadPdfWithIndex(k) {
                 widths: ['*'],
                 body: [
                   [
-                    { image: document.getElementById(a${k}_1).href, width: 250, alignment: 'center' },
+                    { image: document.getElementById(`a${k}_1`).href, width: 250, alignment: 'center' },
                   ],
                   [
-                    { image: document.getElementById(a${k}_3).href, width: 250, alignment: 'center' },
+                    { image: document.getElementById(`a${k}_3`).href, width: 250, alignment: 'center' },
                   ],
                 // [
-                //   { image: document.getElementById(a${k}_3).href, width: 196, alignment: 'center' },
+                //   { image: document.getElementById(`a${k}_3`).href, width: 196, alignment: 'center' },
                 // ]
                 ]
               },
@@ -1870,7 +1870,7 @@ function downloadPdfWithIndex(k) {
             //   },
             //   layout: 'defaultBorder', alignment: 'center'
             // },
-            // { text: " \n Total Porosity (%) : " + temp['Total porosity (%)']},
+            // { text: " \n Total Porosity (%) : " +  temp['Total porosity (%)']},
             { text: " \n \n- Option" },
             {
               columns: [
@@ -1912,7 +1912,7 @@ function downloadPdfWithIndex(k) {
   dd.content.push(ddtitle);
   dd.content.push(ddSubImage);
 
-  const subName = _min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".", "")};
+  const subName = `_min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".", "")}`;
 
   filenameWithoutExtention = globalRecvData[k].filename.split('.').slice(0, -1).join('.')
   pdfMake.createPdf(dd).download(filenameWithoutExtention + subName + ".pdf");
@@ -1926,7 +1926,7 @@ function zipAllImage() {
   let zip = new JSZip();
 
   for (let p = 0; p < Object.keys(globalRecvData).length; p++) {
-    if (document.getElementById(resSwitch${p}).checked == true) {
+    if (document.getElementById(`resSwitch${p}`).checked == true) {
       filenameWithoutExtention = globalRecvData[p].filename.split('.').slice(0, -1).join('.')
 
       // zip.file( `${filenameWithoutExtention}_${globalRecvData[p].reqid}.zip`, globalRecvData[p]["zip"], {base64: true});
@@ -1939,12 +1939,12 @@ function zipAllImage() {
     } 
   }
 
-  const subName = _min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".","")};
+  const subName = `_min_${globalRecvData[0].option_min_diameter_thr.toString().replace(".","")}`;
   
   zip.generateAsync({ type: "base64", compression: "DEFLATE", compressionOptions: { level: 9 } }).then(
     function( base64Text )
     {
-      const fn = PDLC_Droplet_Image_Analysis_for_SGF_images_All${subName}_${getTimeStamp()}.zip;
+      const fn = `PDLC_Droplet_Image_Analysis_for_SGF_images_All${subName}_${getTimeStamp()}.zip`;
       
       let element = document.createElement('a');
       element.setAttribute('href', 'data:application/octastream;base64,' + base64Text );
@@ -1959,8 +1959,8 @@ function zipAllImage() {
 
 function downloadImageWithIndex(k) {
   filenameWithoutExtention = globalRecvData[k].filename.split('.').slice(0, -1).join('.');
-  const subName = _min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".","")};
-  const fn = PDLC_Droplet_Image_Analysis_for_SGF_images_${filenameWithoutExtention}${subName}_${getTimeStamp()}.zip;
+  const subName = `_min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".","")}`;
+  const fn = `PDLC_Droplet_Image_Analysis_for_SGF_images_${filenameWithoutExtention}${subName}_${getTimeStamp()}.zip`;
   
   let element = document.createElement('a');
   element.setAttribute('href', 'data:application/octastream;base64,' + globalRecvData[k].zip );
@@ -1976,11 +1976,11 @@ function zipImageWithIndex(k) {
   
   filenameWithoutExtention = globalRecvData[k].filename.split('.').slice(0, -1).join('.')
   
-  const subName = _min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".","")};
+  const subName = `_min_${globalRecvData[k].option_min_diameter_thr.toString().replace(".","")}`;
   
-  zip.file( ${filenameWithoutExtention}_${globalRecvData[k].reqid}${subName}_raw.png, globalRecvData[k].image_raw, {base64: true});
-  zip.file( ${filenameWithoutExtention}_${globalRecvData[k].reqid}${subName}_section.png, globalRecvData[k].image_bi_scale, {base64: true});
-  zip.file( ${filenameWithoutExtention}_${globalRecvData[k].reqid}${subName}_segmentation.png, globalRecvData[k].image_out, {base64: true});
+  zip.file( `${filenameWithoutExtention}_${globalRecvData[k].reqid}${subName}_raw.png`, globalRecvData[k].image_raw, {base64: true});
+  zip.file( `${filenameWithoutExtention}_${globalRecvData[k].reqid}${subName}_section.png`, globalRecvData[k].image_bi_scale, {base64: true});
+  zip.file( `${filenameWithoutExtention}_${globalRecvData[k].reqid}${subName}_segmentation.png`, globalRecvData[k].image_out, {base64: true});
   
   zip.generateAsync({ type: "base64", compression: "DEFLATE", compressionOptions: { level: 9 } }).then(
     function( base64Text )
@@ -2024,12 +2024,12 @@ document.getElementById("buttonOptionredraw").onclick = function () {
 }
 
 function displayToggle(k) {
-  document.getElementById(cc${k}_1).classList.toggle("custom_display");
-  document.getElementById(cc${k}_2).classList.toggle("custom_display");
+  document.getElementById(`cc${k}_1`).classList.toggle("custom_display");
+  document.getElementById(`cc${k}_2`).classList.toggle("custom_display");
 }
 
 function setScaleBar(k) {
-  let myImgElement = document.getElementById(image${k}_1);
+  let myImgElement = document.getElementById(`image${k}_1`);
   let myCanvasElement = document.createElement("canvas");
   myCanvasElement.setAttribute("id", "canvas");
   document.getElementById("scalebar_canvas").innerHTML = ""
@@ -2056,7 +2056,7 @@ function setScaleBar(k) {
   let sX, sY, cX, cY;
   let draw = false;
   
-  document.getElementById(manual_scalebar_${k}).value = "";
+  document.getElementById(`manual_scalebar_${k}`).value = "";
   
   $("canvas").mousedown(function (e) {
     sX = parseInt(e.offsetX);
@@ -2130,7 +2130,7 @@ function magnify(imgID, zoom) {
   img.addEventListener("touchmove", moveMagnifier);
   
   // function mouse_test1(e) {
-  // console.log("1");
+  //   console.log("1");
   // }
   function mouse_test2(e) { // mouseleave
     // console.log("2");
@@ -2141,7 +2141,7 @@ function magnify(imgID, zoom) {
     glass.classList.remove("custom_display");
   }
   // function mouse_test4(e) {
-  // console.log("4");
+  //   console.log("4");
   // }
   
   function moveMagnifier(e) {
@@ -2225,10 +2225,10 @@ function windowResized() {
 function draw() {
   // console.log("draw");
   if (isLooping() == true) {
-    modalXY.innerHTML = X ${parseInt(mouseX / globalRecvData[mSrcIdx].p5[mSubSrcIdx].manual_manipulate_screen_ratio)}, Y ${parseInt(mouseY / globalRecvData[mSrcIdx].p5[mSubSrcIdx].manual_manipulate_screen_ratio)};
+    `modalXY.innerHTML = X ${parseInt(mouseX / globalRecvData[mSrcIdx].p5[mSubSrcIdx].manual_manipulate_screen_ratio)}, Y ${parseInt(mouseY / globalRecvData[mSrcIdx].p5[mSubSrcIdx].manual_manipulate_screen_ratio)}`;
     const ccolor = get(mouseX, mouseY);
-    modalColor.innerHTML = ${ccolor[0]} ${ccolor[1]} ${ccolor[2]};
-    modalColor.setAttribute("style",font-size:8px; color: yellow; background-color:rgb(${ccolor[0]},${ccolor[1]},${ccolor[2]}))
+    modalColor.innerHTML = `${ccolor[0]} ${ccolor[1]} ${ccolor[2]}`;
+    modalColor.setAttribute("style", `font-size:8px; color: yellow; background-color:rgb(${ccolor[0]},${ccolor[1]},${ccolor[2]})`)
   }
 
   if (drawBGFlag > 0) {
@@ -2339,7 +2339,7 @@ function drawGrid() {
   strokeWeight(5);
   // translate(18, globalRecvData[mSrcIdx].p5[mSubSrcIdx].img_y * globalRecvData[mSrcIdx].p5[mSubSrcIdx].manual_manipulate_screen_ratio - 20);
   translate(18, 25);
-  text(GRID : ${globalRecvData[mSrcIdx].p5[mSubSrcIdx].gridStep} µm, 0, 0);
+  text(`GRID : ${globalRecvData[mSrcIdx].p5[mSubSrcIdx].gridStep} µm`, 0, 0);
   pop();
 }
 
@@ -2364,7 +2364,7 @@ function cSegmentInfo(x, y, no) {
   push();
   strokeWeight(5);
   translate(x, y);
-  text(${no}, 0, -10);
+  text(`${no}`, 0, -10);
   pop();
 }
 
@@ -2392,7 +2392,7 @@ function cArrow(x, y, no) {
   push();
   strokeWeight(5);
   translate(x + 15, y - 15);
-  text(${no + 1}, 0, -5);
+  text(`${no + 1}`, 0, -5);
   pop();
 }
 
@@ -2499,7 +2499,7 @@ function cMeas(sX, sY, mX, mY) {
   // translate(startX + (mouseX - startX) / 4, startY + (mouseY - startY) / 4);
   translate(sX + (mX - sX) / 1.2, sY + (mY - sY) / 1.2);
   rotate(atan2(mY - sY, mX - sX));
-  text(${nfc(d, 2)} µm, 0, -10);
+  text(`${nfc(d, 2)} µm`, 0, -10);
   pop();
 }
 
@@ -2522,7 +2522,7 @@ function modalButtonRemoveClear() {
 
 function modalButtonImageSave() {
   const fname = globalRecvData[mSrcIdx].filename;
-  saveCanvas(modalCanvas , analysis_${getTimeStamp()}_${fname});
+  saveCanvas(modalCanvas , `analysis_${getTimeStamp()}_${fname}`);
   drawBGFlag = 10;
 }
 
@@ -2609,7 +2609,7 @@ function modalSwitchRemoveMode3(e) {
 
 
 function modalSwitchSegmentInfo(e) {
-  globalRecvData[mSrcIdx].p5[mSubSrcIdx].manualSegmentInfoModeSwitch = e;
+  globalRecvData[mSrcIdx].p5[mSubSrcIdx].manualSegmentInfoModeSwitch =  e;
   if (e == true) {
     const temp = globalRecvData[mSrcIdx].detail["Center of moment"];
     const temp2 = globalRecvData[mSrcIdx].data["dst_com"];
@@ -2694,7 +2694,7 @@ function modalSourceChange(subIdx) {
   const removeMenu = document.getElementById("removeMenuArea");
 
   if (subIdx == 0) {
-    targetImg = document.getElementById(image${mSrcIdx}_1);
+    targetImg = document.getElementById(`image${mSrcIdx}_1`);
     manual_manipulate_target_image = loadImage("data:image/png;base64," + globalRecvData[mSrcIdx].image_raw);
     // document.getElementById("modalButtonRemoveRun").disabled = true;
     if (removeMenu.classList.contains('custom_display') == false) {
@@ -2704,7 +2704,7 @@ function modalSourceChange(subIdx) {
       }, 701);
     }
   } else if (subIdx == 1) {
-    targetImg = document.getElementById(image${mSrcIdx}_2);
+    targetImg = document.getElementById(`image${mSrcIdx}_2`);
     manual_manipulate_target_image = loadImage("data:image/png;base64," + globalRecvData[mSrcIdx].image_bi_scale);
     // document.getElementById("modalButtonRemoveRun").disabled = true;
     if (removeMenu.classList.contains('custom_display') == false) {
@@ -2714,7 +2714,7 @@ function modalSourceChange(subIdx) {
       }, 701);
     }
   } else if (subIdx == 2) {
-    targetImg = document.getElementById(image${mSrcIdx}_3);
+    targetImg = document.getElementById(`image${mSrcIdx}_3`);
     manual_manipulate_target_image = loadImage("data:image/png;base64," + globalRecvData[mSrcIdx].image_out);
     // document.getElementById("modalButtonRemoveRun").disabled = false;
     if (removeMenu.classList.contains('custom_display') == false) {
@@ -2804,7 +2804,7 @@ function modalButtonRemoveRun() {
 
 
 window.addEventListener('DOMContentLoaded', function () {
-  console.log(%cⓒ 2024. LG Chem. All Rights Reserved. Advanced Materials. DX Team., 'color:#a50034;font-size:10px;');
+  console.log(`%cⓒ 2024. LG Chem. All Rights Reserved. Advanced Materials. DX Team.`, 'color:#a50034;font-size:10px;');
   notyf = new Notyf();
   
   const savedOption = localStorage.getItem(OPTION_KEY);
