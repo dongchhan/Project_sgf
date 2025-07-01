@@ -131,9 +131,8 @@ socket.on('disconnect', function () {
   s1.classList.remove("server_on");
   s1.classList.add("server_off");
 });
-
+  // getElementById: id값으로 html태그를 가져오는 DOM 메소드 
 document.getElementById("files").onchange = function () {
-  
   // total_images = 0 
   
   // if (customFiles == null) {
@@ -141,7 +140,7 @@ document.getElementById("files").onchange = function () {
   // }
   // console.log(this.files)
   // console.log(customFiles)
-  
+  // 1단계: 업로드된 이미지 확장자 검사
   for (let k = 0; k < this.files.length; k++) {
     const cExt = getExtension(this.files[k].name).toLowerCase();
     if (cExt == "jpg" || cExt == "jpeg" || cExt == "png") {
@@ -152,7 +151,7 @@ document.getElementById("files").onchange = function () {
       return;
     }
   }
-  
+  // 2단계: customFiles 초기화 및 정렬 
   if (customFiles == null) {
     customFiles = Array.from(document.getElementById("files").files);
     
@@ -160,15 +159,15 @@ document.getElementById("files").onchange = function () {
     customFiles.sort((file1, file2) => {
       return file1.name.localeCompare(file2.name);
     });
-    
+    // 3단계: 핵심 코드 블록 
     document.getElementById("image_div").innerHTML = "";
     
     for (let k = 0; k < customFiles.length; k++) {
       total_images = total_images + 1;
-      
-      let dc = document.createElement("div");
-      let dcb = document.createElement("div");
-      let dcm = document.createElement("div");
+      //  한 장의 이미지가 담길 카드 UI 준비 
+      let dc = document.createElement("div");  // 전체 외곽 
+      let dcb = document.createElement("div");  // Bootstrap의 .card구조
+      let dcm = document.createElement("div");  // 카드 안의 실제 내용 영역
       dc.setAttribute("class", "col-12 mb-1");
       dcb.setAttribute("class", "card border-0 shadow components-section p-1");
       dcm.setAttribute("class", "card-body pb-0 pt-0 px-3");
@@ -234,17 +233,17 @@ document.getElementById("files").onchange = function () {
             </div>
           </div>
         </div>`;
-        
+      // 4단계: 생성한 카드UI를 브라우저 화면에 실제로 추가 + 이미지 로딩
       dcb.appendChild(dcm);
       dc.appendChild(dcb);
       
       document.getElementById("image_div").appendChild(dc);
-      
+      // 5단계: 이미지에 "RAW"라벨 붙이기 
       let label_0 = document.createElement("span")
       label_0.setAttribute("style", "position: absolute; top: 0; left: 50%; transform: translateX(-50%); color: white; background-color: rgba(0, 0, 0, 0.5); padding: 5px; border-radius: 5px;")
       label_0.innerHTML = "Raw"
       document.getElementById(`a${k}_1`).append(label_0)
-      
+      // 6단계: FileReader로 이미지 미리보기 표시 
       let reader = new FileReader();
       
       reader.onload = function (e) {
@@ -254,11 +253,11 @@ document.getElementById("files").onchange = function () {
       
       reader.readAsDataURL(customFiles[k]);
     }
-    
+    // 7단계: 자동 실행 옵션이 켜져 있을 경우 분석 시작
     if (document.getElementById("opt_autorun").checked == true) {
-      document.getElementById("buttonRun").click();
+      document.getElementById("buttonRun").click();  // 분석 요청 시작!!
     };
-  } else {
+  } else {  // 8단계: 두 번째 이미지 추가 시의 흐름
     // console.log("add something...")  // #####################################
     window.scrollTo(0, document.body.scrollHeight);
     
@@ -368,7 +367,7 @@ document.getElementById("files").onchange = function () {
       window.scrollBy(0, 500);
       
       if (document.getElementById("opt_autorun").checked == true) {
-        second_run();
+        second_run();  // second_run을 통해 분석 시작!!
       };
       
     }, 300);
