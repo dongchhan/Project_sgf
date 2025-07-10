@@ -44,6 +44,7 @@ warnings.filterwarnings(action="ignore")
 
 
 def timeit(func):
+  '''함수 실행 시간 출력용 데코레이터'''
     @wraps(func)
     def timeit_wrapper(*args, **kwargs):
         start_time = time.perf_counter()
@@ -61,7 +62,7 @@ def timeit(func):
 # global function
 
 def get_vector_angle (v1, v2) :
-
+    '''두 벡터 사이 각도 계산'''
     dot_v = np.dot(v1, v2)
     ang_v = math.acos(dot_v/(np.linalg.norm(v1) * np.linalg.norm(v2)))*180/math.pi
     sign = (v1[0]*v2[1] - v1[1]*v2[0])/(np.linalg.norm(v1) * np.linalg.norm(v2)) > 0
@@ -71,6 +72,7 @@ def get_vector_angle (v1, v2) :
     return ang_v 
 
 def Noise_rm(im, thr):
+    '''binary 이미지에서 특정 크기 이하 노이즈 제거'''
     label_objects_ed, nb_labels_ed = ndimage.label(im)
     sizes_ed = np.bincount(label_objects_ed.ravel())
     mask_sizes_ed = sizes_ed > thr
@@ -82,9 +84,12 @@ def Noise_rm(im, thr):
 
 # Scale ROI Class
 class SEMROI():
+    '''scalebar 추출용
+    이미지 내 scalebar, scale 텍스트, ROI를 추출하는 전처리 클래스
+    '''
     @timeit
     def __init__(self, fname, model_roi):
-
+        '''이미지 로드 및 초기화'''
         self.fname = fname
         self.img_raw_c = cv2.imread(self.fname)
         self.img_raw_gray = cv2.cvtColor(self.img_raw_c, cv2.COLOR_BGR2GRAY)
@@ -101,6 +106,8 @@ class SEMROI():
 
     @timeit
     def detect_func(self, source, model=None):
+      '''YOLOv5 기반 scale, scalebar, ROI 탐지
+      return result_df'''
         model.to(device="cpu")
         # source = f'{source}'  # file/dir/URL/glob, 0 for webcam
         imgsz = (640, 640)  # inference size (height, width)
@@ -208,6 +215,9 @@ class SEMROI():
 
     @timeit
     def roi(self, model, input_scale=None, input_scalebar=None):
+        '''OCR 기반으로 Scale값 인식 및 scalebar 길이 계산
+        return self.refPt_x_c, self.refPt_y_c, self.im
+        '''
         self.roi_mode = "auto"
         # YOLO 이미지 ROI 설정
 
@@ -323,6 +333,7 @@ class SEMROI():
 
     @timeit
     def image_cut(self, image_for_cut, cut_x, cut_y):
+        '''ROI 영역만 자른 이미지 추출'''
         self.dst_raw = image_for_cut[min(cut_y) : max(cut_y), min(cut_x) : max(cut_x)]
         # self.dst_raw = cv2.normalize(self.dst_raw, None, 0, 255, cv2.NORM_MINMAX)  # ContrastrefPt_x 조절
         self.dst_raw_gray = cv2.cvtColor(self.dst_raw, cv2.COLOR_BGR2GRAY)
@@ -330,6 +341,7 @@ class SEMROI():
 
     @timeit
     def detect_processing(self, input_scale=None, input_scalebar = None):
+        '''위 모든 전처리 과정을 한 번에 수행, 최종 분석에 필요한 값 반환'''
         self.refPt_x_c, self.refPt_y_c, self.im = self.roi(self.model_roi, input_scale=input_scale, input_scalebar=input_scalebar)
         self.dst_raw, self.dst_raw_gray = self.image_cut(self.img_raw_c, self.refPt_x_c, self.refPt_y_c)
         self.dst_gap_x, self.dst_gap_y = min(self.refPt_x_c), min(self.refPt_y_c)
@@ -346,9 +358,12 @@ class SEMROI():
 
 # Droplet Analysis Class
 class SAM_for_Droplet():
+    '''SEMROI에서 ROI 추출한 뒤, 
+    Unet 기반 Segmentation 수행, 
+    후처리하여 Droplet 정보 추출'''
     @timeit
     def __init__(self, fname, model_roi, model_seg):
-
+        '''입력 이미지 및 모델 주입'''
         self.fname = fname
         self.file = fname.split("/")[-1]
 
@@ -361,7 +376,7 @@ class SAM_for_Droplet():
 
     @timeit
     def detect_roi(self, input_scale=None, input_scalebar = None):
-
+        '''SEMROI 실행, ROI, scalebar 추출 및 배율 설정'''
         self.roiseg = SEMROI(self.fname, self.model_roi)
         self.img_raw_c, self.img_raw_gray, self.dst_raw, self.dst_raw_gray, self.im, self.bi_scale, self.scale_arr, self.scale_ratio, self.scale, self.dst_gap_x, self.dst_gap_y = self.roiseg.detect_processing(
             input_scale=input_scale, input_scalebar=input_scalebar)
@@ -371,7 +386,7 @@ class SAM_for_Droplet():
 
     @timeit
     def get_seg_labels (self, input_shape = (512,512)) :
-
+        '''Unet으로 Segmentation 수행, Edge vs Particle 분리'''
         self.edge = None
         self.particle = None
 
@@ -412,7 +427,7 @@ class SAM_for_Droplet():
     
     @timeit
     def get_seg_droplets (self, poly = False) :
-
+        '''Contour 후처리, droplet 필터링 및 특징값 계산'''
         # matchShape distance 기준으로 droplet 선별
         shape_dist_thr = 0.2
 
@@ -595,7 +610,7 @@ class SAM_for_Droplet():
     
 
     def get_outputs(self):
-
+        ''''시각화 이미지 통계값 딕셔너리 반환'''
         output_img_dict = {}
         output_value_dict = {}
 
@@ -674,10 +689,10 @@ class SAM_for_Droplet():
 
     @timeit
     def processing(self, input_scale = None, input_scalebar = None):  # 수동지정 stateless 구현 필요
-
+        '''전체 분석 실행(SGF에서 호출할 메인 함수)'''
         self.detect_roi(input_scale = input_scale, input_scalebar = input_scalebar)
         self.get_seg_labels()
-        self.get_seg_droplets()
+        self.get_seg_droplets() 
 
         output_img_dict, output_value_dict = self.get_outputs()
 
@@ -693,6 +708,7 @@ model_seg = None
 
 @timeit
 def unet_init():
+    '''모델 불러오기, 서비스 최초 1회 실행'''
     # with tf.device("/cpu:0"):
     global model_roi
     global model_seg
@@ -704,7 +720,7 @@ def unet_init():
 
 @timeit
 def unet_main(image_file_name, option_min_diameter_thr, manual_scale = None, manual_scalebar = None):
-
+    '''이미지를 받아 전체 분석 수행 후 결과 return'''
     analyzer = SAM_for_Droplet(image_file_name, model_roi, model_seg)
 
     # dev option
@@ -736,5 +752,6 @@ if __name__ == "__main__":
     print("=== analyzer_main (normal)===")
     res = unet_main("./test.jpg", option_min_diameter_thr)
     print(res['output_value_dict'])
+    
     # print("=== analyzer_main (abnormal_nan)===")
     # res = unet_main("./test_nan.png", option_min_diameter_thr)

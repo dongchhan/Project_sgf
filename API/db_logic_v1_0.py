@@ -38,13 +38,18 @@ def timeit(func):
 #########################################################################################
 
 class Transformer_for_Droplet () :
+    '''분석 결과(df_seg_raw)를 DB 적재하기 위한 표준 형식으로 변환하는 전처리기'''
     def __init__ (self, api_input_dict, web_input_dict) :
 
         self.api_input_dict = api_input_dict
         self.web_input_dict = web_input_dict
 
     def get_db_detail_i (self) :
-
+        '''
+        - input 2개로 부터 추가 메타데이터(P_code, P_date 등) 생성
+        - df_seg_raw에 메타정보 column 추가
+        - 최종적으로 df_db_detail_i DF 생성
+        '''
         df_seg_raw = self.api_input_dict['df_seg_raw']
 
         for file, group in df_seg_raw.groupby('File') : # 이미지당 df_seg 발생하므로 사실상 1개의 dataframe이나 명시적으로 groupby
@@ -90,7 +95,7 @@ class Transformer_for_Droplet () :
 
 
 class Collector_for_Droplet () :
-
+    '''전체 DB에서 최신 분석 기준으로 최근 20개 값을 추출하고 CL/UCL/LCL 계산'''
     def __init__ (self, df_db_detail_input) :
 
         self.df_db_detail_input = df_db_detail_input
@@ -98,7 +103,7 @@ class Collector_for_Droplet () :
         self.ph_min_diameter_thr = 0.5
 
     def get_db_detail_latest (self) :
-                
+        '''df_db_detail_input에서 File, R_date, R_time 기준으로 최신 분석값만 추출'''
         self.df_latest = pd.DataFrame()
 
         # 분석 일자(r_date) 기준 최신 분석 이미지 (독립 File) 추출
@@ -114,7 +119,11 @@ class Collector_for_Droplet () :
             self.df_latest = pd.concat([self.df_latest, latest_group]).reset_index(drop = True)
 
     def get_db_log_ph_add(self) :
-
+        '''
+        P_code가 ph인 데이터만 추출하여 diameter 평균 계산
+        이상치(IQR기반) 제거 후 평균 추출 
+        최근 20개의 diameter 평균을 기반으로, CL/UCL/LCL 계산 
+        '''
         # df_latest → df_latest_ph → df_db_log_ph (p_date 기준 독립성)
         # 이상치 제거 후, diameter avg
         # 최근 20개 기준 CL, UCL, LCL (UCL, LCL 3시그마)
@@ -182,12 +191,13 @@ class Collector_for_Droplet () :
 
 
 class Displayer_for_Droplet () :
-
+    '''최종적으로 plot 시각화에 필요한 구조(x,y, cl/ucl/lcl) 반환'''
     def __init__ (self, df_db_log_ph_input) :
 
         self.df_db_log_ph_input = df_db_log_ph_input
 
     def get_db_log_display (self) :
+        '''D_date(가상 최신 일자) 기준으로 P_date 별로 정렬된 데이터 추출'''
         d_date = str(self.df_db_log_ph_input['D_date'].astype('int').max())
 
         self.df_db_log_ph_input[['D_date', 'R_date', 'P_date']] = self.df_db_log_ph_input[['D_date', 'R_date', 'P_date']].astype(int).astype(str)
@@ -216,16 +226,17 @@ class Displayer_for_Droplet () :
 # 전체 Class 에서 date가 'str' 대신 'int', 'float' 인식되어 전처리가 많이 들어감 → DB mapping 때 명확히 지정되도록 하고 수정
     
 ############################################################################################################################
-
+'''실제 웹 연동용 함수들'''
 @timeit
 def db_transfomer_img(api_input_dict, web_input_dict) :
-
+    '''단일 이미지의 분석 결과를 DB 적재용 형식으로 변환'''
     transformer = Transformer_for_Droplet(api_input_dict, web_input_dict)
     df_db_detail_i = transformer.get_db_detail_i()
 
     return df_db_detail_i
 
 def db_stacking_run(df_db_detail_i_list) :
+    '''여러 이미지의 변환된 결과를 합침'''
     df_db_detail_add = pd.DataFrame()
 
     for df_db_detail in df_db_detail_i_list :
@@ -234,13 +245,14 @@ def db_stacking_run(df_db_detail_i_list) :
     return df_db_detail_add
 
 def db_collector_run(df_db_detail_input) :
-
+    '''합쳐진 데이터를 기반으로 관리선 포함한 Trend DB 생성'''
     collector = Collector_for_Droplet(df_db_detail_input)
     df_db_log_ph_add = collector.processing()
 
     return df_db_log_ph_add
 
 def db_displayer_run(df_db_log_ph_input) :
+    '''Trend DB로부터 Plot을 위한 dict 생성'''
     displayer = Displayer_for_Droplet(df_db_log_ph_input)
     displayer.get_db_log_display()
     display_dict = displayer.mapping()
