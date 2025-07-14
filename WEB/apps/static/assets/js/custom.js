@@ -1241,41 +1241,41 @@ const boxPlotList = [
 ];
 
 function drawPlot() {
-  
+  // DEV모드에서 뭐 3개 띄워줄지 고른 값 받아오기
   const mainPlot1TypeIndex = document.getElementById("opt_main_plot_1_type").selectedIndex;
   const mainPlot2TypeIndex = document.getElementById("opt_main_plot_2_type").selectedIndex;
   const mainPlot3TypeIndex = document.getElementById("opt_main_plot_3_type").selectedIndex;
   
-  let xx = [];
-  let yy1 = [];
+  let xx = [];  // x축에 표시될 그룹이름; 아마 []안의 랏 이름  
+  let yy1 = [];  
   let yy2 = [];
   let yy3 = [];
-  let fname = [];
+  let fname = [];  // 마우스 호버 시 보여줄 파일 이름, (lot명, y값, 이미지 명)
   for (k in globalRecvData) {
     if (document.getElementById(`resSwitch${k}`).checked == true) {
-      xx.push(globalRecvData[k].filename_category);
+      xx.push(globalRecvData[k].filename_category);  // filename_category: 이미지 명에서 []부분만 따온것
       fname.push(`${parseInt(k) + 1}. ${globalRecvData[k].filename}`);
       const temp = globalRecvData[k].data;
-      yy1.push(temp[boxPlotList[mainPlot1TypeIndex][0]]);
+      yy1.push(temp[boxPlotList[mainPlot1TypeIndex][0]]);  // 위에 보면 boxPlotList에 Dev모드에서 선택가능한 목록이 있는데, boxPlotList[mainPlot2TypeIndex] 으로 그냥 그 항목을 가져오는 것, temp[]를 통해서 그냥 선택한 그 옵션에 맞는 데이터 가져오는 것
       yy2.push(temp[boxPlotList[mainPlot2TypeIndex][0]]);
       yy3.push(temp[boxPlotList[mainPlot3TypeIndex][0]]);
     }
   }
   
-  const trace1 = {
+  const trace1 = {  // Plot 의 데이터 관련
     y: yy1,
-    x: xx,
+    x: xx,  // Plotly의 박스플롯은, x축 값이 같으면 그것끼리 알아서 하나의 박스로 묶임 
     marker: { color: "#a50034" },
-    type: "box",
+    type: "box",  // 박스플롯으로 정해지는 부분 
     text: fname,
-    boxpoints: "all",
+    boxpoints: "all",  // stripplot처럼 박스플롯 위에 점도 다 찍힘
     jitter: 0.3,
     pointpos: 0,
   };
   
   const title1 = document.getElementById("opt_main_plot_1_type").options[document.getElementById("opt_main_plot_1_type").selectedIndex].text;
   
-  const customLayout1 = {
+  const customLayout1 = {  // Plot의 꾸미기 관련
     showlegend: false,
     title: { text: title1, font: { size: 20 } },
     plot_bgcolor: "#FFF",
@@ -1334,9 +1334,9 @@ function drawPlot() {
   
   const customConfig = { responsive: true, displaylogo: false, };
   
-  Plotly.newPlot("plotBox_1", [trace1], customLayout1, customConfig);
-  let plotPromise1 = Plotly.toImage(document.getElementById("plotBox_1"), { format: 'png', height: 400, width: 600 });
-  plotPromise1.then(value => { plot1base64 = value });
+  Plotly.newPlot("plotBox_1", [trace1], customLayout1, customConfig);  // 그래프 그리기, plotBox_1은 HTML태그임
+  let plotPromise1 = Plotly.toImage(document.getElementById("plotBox_1"), { format: 'png', height: 400, width: 600 });  // 그린 그래프를 이미지로 변환
+  plotPromise1.then(value => { plot1base64 = value });  // 이미지 변환이 끝나면 base64로 저장
   
   Plotly.newPlot("plotBox_2", [trace2], customLayout2, customConfig);
   let plotPromise2 = Plotly.toImage(document.getElementById("plotBox_2"), { format: 'png', height: 400, width: 600 });
